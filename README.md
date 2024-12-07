@@ -104,7 +104,7 @@ Para executar este projeto, foram utilizadas as seguintes bibliotecas:
 ### Códigos Fonte
 Os códigos-fonte completos estão disponíveis no repositório do projeto no GitHub:
 
-[Repositório no GitHub](https://github.com/seu-usuario/seu-repositorio)
+[Repositório no GitHub](https://github.com/LaisVasconcelos/Analise-comparativa-de-algoritmos-com-uso-de-paralelismo-em-java)
 
 ### Scripts Python
 
