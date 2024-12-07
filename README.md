@@ -1,78 +1,140 @@
-# Análise Comparativa de Algoritmos com Uso de Paralelismo
+# Relatório do Projeto: Análise de Desempenho de Algoritmos de Busca em CPU e GPU
+
+## Autores
+- Tiago Farias Rodrigues - 1914187
+- Ana Laís Nunes de Vasconcelos - 2216984
 
 ## Resumo
 
-Este trabalho propõe uma análise detalhada do desempenho de diferentes algoritmos de busca em ambientes seriais e paralelos, utilizando a linguagem de programação Java. A busca por eficiência computacional é essencial em diversas aplicações, e entender como diferentes algoritmos se comportam em diferentes cenários de processamento é de suma importância. Neste estudo, serão abordados três algoritmos: **versão serial na CPU**, **versão paralela na CPU** e **versão paralela na GPU**.
+Este trabalho explora o desempenho de algoritmos de busca seriais e paralelos em diferentes ambientes computacionais. Implementamos três abordagens: busca serial, busca paralela em CPU e busca paralela em GPU, utilizando Java e OpenCL para processamento em GPU. Os resultados foram registrados em arquivos CSV e visualizados por meio de gráficos. O projeto aborda as vantagens e limitações de cada abordagem, identificando padrões de desempenho e fornecendo insights para aplicações futuras.
 
-Serão realizadas análises comparativas utilizando textos como conjuntos de dados de entrada para a contagem de ocorrências de uma palavra. Os resultados serão registrados em arquivos CSV, permitindo uma análise visual através de gráficos ou processamento adicional utilizando Java.
+---
 
-## Objetivos
+## Introdução
 
-1. **Implementar três métodos para a contagem de palavras**:
-    - **Método SerialCPU**: Versão serial na CPU, que utiliza um loop simples para iterar sobre cada palavra do texto e contar as ocorrências.
-    - **Método ParallelCPU**: Versão paralela na CPU, que utiliza um pool de threads para dividir o texto em partes e contar as palavras em paralelo.
-    - **Método ParallelGPU**: Versão paralela na GPU, utilizando **OpenCL** para processar o texto em paralelo e contar as palavras de forma eficiente.
+A eficiência no processamento de grandes volumes de dados é essencial em diversas áreas da computação. Este trabalho visa analisar o desempenho de três abordagens distintas para busca em textos: busca serial na CPU, busca paralela utilizando multithreading na CPU e busca paralela na GPU. O objetivo é comparar os tempos de execução e a precisão dos resultados obtidos por cada abordagem.
 
-2. **Realizar análises de desempenho comparativas** entre as versões serial e paralela dos algoritmos de contagem, utilizando diferentes conjuntos de dados.
-   
-    - Variar o tamanho e a natureza dos conjuntos de dados de entrada.
-    - Realizar uma execução Serial, paralela com CPU e paralela com GPU.
-    - Realizar pelo menos 3 amostras de cada execução, para gerar dados suficientes para a análise.
+A abordagem GPU utilizou OpenCL para distribuir o trabalho em paralelo entre os núcleos da GPU, enquanto as abordagens na CPU usaram Java, com a implementação de um pool de threads para divisão do trabalho na versão paralela.
 
-3. **Investigar o comportamento dos algoritmos** sob diferentes configurações de processamento paralelo, ajustando o número de núcleos de processamento disponíveis.
-
-4. **Gerar arquivos CSV** contendo os resultados das análises para facilitar a visualização e o processamento posterior.
-
-5. **Gerar gráficos** para indicar as execuções com entradas de dados diferentes, utilizando ferramentas como Swing Java, Jupyter ou JSF (Prime Faces).
+---
 
 ## Metodologia
 
-### Implementação de Algoritmos
-- **Serial**: A versão serial realiza a contagem de palavras sequencialmente, utilizando um loop simples para iterar pelas palavras do texto.
-- **Paralela na CPU**: A versão paralela na CPU divide o texto em partes, utilizando um pool de threads para processar diferentes partes simultaneamente.
-- **Paralela na GPU**: A versão paralela na GPU usa a biblioteca OpenCL para realizar a contagem de palavras de forma distribuída na GPU.
+Para realizar este estudo, seguimos os seguintes passos:
 
-### Framework de Teste
-Foi desenvolvido um framework de teste que executa os três métodos em diversos conjuntos de dados. O framework registra os tempos de execução e salva os resultados em arquivos CSV, que posteriormente são utilizados para gerar gráficos de análise.
+1. **Implementação de Algoritmos:** Desenvolvemos três algoritmos de busca: SerialCPU, ParallelCPU e ParallelGPU.
+2. **Framework de Teste:** Criamos uma estrutura para executar as buscas e registrar os tempos de execução e o número de ocorrências encontradas.
+3. **Execução em Diferentes Ambientes:** Executamos os algoritmos em três arquivos de texto distintos para observar como o desempenho varia.
+4. **Registro de Dados:** Os tempos de execução e as ocorrências foram armazenados em arquivos CSV para posterior análise.
+5. **Análise Estatística:** Comparamos os tempos médios de execução de cada abordagem, identificando padrões de desempenho e limitações.
 
-### Execução em Ambientes Variados
-Para testar o impacto do tamanho dos conjuntos de dados, os testes foram executados com diferentes textos de tamanhos variados. Além disso, o número de threads foi ajustado na versão paralela para observar o impacto no desempenho.
-
-### Registro de Dados
-Os resultados de tempo de execução de cada método foram armazenados em arquivos CSV para facilitar a visualização. Esses arquivos contêm informações como o número de ocorrências encontradas e o tempo de execução.
-
-### Análise Estatística
-Uma análise estatística foi realizada para identificar padrões de desempenho entre os diferentes algoritmos, considerando o impacto do tamanho do conjunto de dados e a configuração de processamento.
+---
 
 ## Resultados e Discussão
 
-| **Método**       | **Ocorrências Encontradas** | **Tempo de Execução** |
-|------------------|-----------------------------|-----------------------|
-| SerialCPU        | 66                          | 133 ms                |
-| ParallelCPU      | 66                          | 82 ms                 |
-| ParallelGPU      | 66                          | 2705 ms               |
+Os resultados mostraram que a busca em GPU apresentou maior precisão e desempenho comparado às implementações de CPU. No entanto, a busca em CPU enfrentou problemas de precisão, especialmente ao lidar com palavras comuns como "the".
 
-- A versão **serial** teve um desempenho razoável, mas o tempo de execução foi significativamente maior em comparação com a versão paralela na CPU.
-- A versão **paralela na CPU** apresentou um desempenho consideravelmente melhor, com tempos de execução reduzidos devido à utilização de múltiplos núcleos de processamento.
-- A versão **paralela na GPU** teve um tempo de execução muito mais alto, devido à sobrecarga de processamento necessária para mover os dados para a GPU e aguardar sua execução.
+### Observações:
 
-Os gráficos mostraram que, conforme o tamanho do conjunto de dados aumentava, a versão paralela na CPU se destacava, enquanto a versão paralela na GPU apresentava um aumento de tempo de execução devido à latência na comunicação com a GPU.
+## Problemas Identificados
+
+### Discussão sobre o Problema na Busca por CPU
+
+Durante o desenvolvimento do projeto, foi identificado um problema significativo na forma como a contagem de palavras é realizada nos métodos **SerialCPU** e **ParallelCPU**. Esse problema está relacionado à maneira como as palavras são separadas e comparadas, resultando em uma contagem imprecisa. Em contrapartida, a abordagem **ParallelGPU** demonstrou resultados consistentes e precisos.
+
+#### Identificação do Problema
+
+Os métodos da CPU (tanto serial quanto paralelo) utilizam a estratégia de **separação de palavras** por meio de expressões regulares (`split("\\W+")`) e realizam a comparação com a palavra-alvo usando uma lógica de igualdade case-insensitive. No entanto, essa abordagem apresenta limitações:
+
+1. **Separação Incompleta por Expressão Regular**:
+    - A expressão regular `\\W+` separa o texto em palavras com base em caracteres não alfanuméricos. Contudo, em casos onde há caracteres especiais, como apóstrofos, hífens ou pontuação adjacente à palavra-alvo, o método pode falhar.
+    - Exemplos de falhas:
+        - `"whale,"` não será identificado como "whale".
+        - `"whale's"` será tratado como uma palavra diferente.
+2. **Fragmentação de Texto**:
+    - Linhas de texto são processadas individualmente, o que pode ignorar palavras que estejam divididas por quebras de linha ou em contextos ambíguos.
+3. **Eficiência e Precisão**:
+    - O método **ParallelCPU**, ao dividir o texto em blocos e atribuí-los a threads, pode falhar em identificar palavras que cruzam os limites dos blocos.
+    - A busca sequencial em **SerialCPU** sofre com os mesmos problemas de separação e também com a ausência de paralelismo, resultando em maior tempo de execução.
+
+#### Contraste com a GPU
+
+A implementação **ParallelGPU** se mostrou mais robusta devido ao uso de **OpenCL**, que processa o texto em paralelo diretamente na GPU. Nesse método:
+- O texto é tratado como uma sequência contínua de caracteres, permitindo identificar palavras independentemente de pontuações ou divisões artificiais.
+- A lógica de busca na GPU utiliza comparações diretas entre caracteres, garantindo maior precisão e consistência na contagem.
+
+#### Exemplos de Inconsistência
+
+Nos resultados coletados:
+- O método **ParallelGPU** identificou corretamente **20,137 ocorrências** de "the" no arquivo `MobyDick-217452.txt`, enquanto os métodos **SerialCPU** e **ParallelCPU** apresentaram contagens significativamente menores, como **14727 ocorrências** ou outras discrepâncias.
+
+Esses erros indicam que os métodos da CPU não conseguem lidar adequadamente com a separação e comparação de palavras, especialmente em textos com formatação complexa.
+
+---
 
 ## Conclusão
 
-Este estudo demonstrou que os algoritmos paralelos em CPU proporcionam uma melhoria significativa no desempenho em comparação com a versão serial, especialmente quando lidamos com grandes volumes de dados. A implementação na GPU, embora poderosa, exigiu mais tempo devido à sobrecarga de movimentação dos dados para a GPU e comunicação entre os dispositivos.
+Este trabalho evidenciou as vantagens e desvantagens de cada abordagem de busca. Embora a GPU tenha apresentado maior precisão, o custo em tempo de execução foi elevado. As abordagens em CPU, apesar de mais rápidas, requerem melhorias na lógica de separação e contagem para garantir resultados precisos.
 
-Além disso, os testes de desempenho evidenciaram que o número de threads na versão paralela na CPU tem um impacto positivo na performance, com melhores resultados em sistemas com múltiplos núcleos de processamento.
+Os insights obtidos fornecem diretrizes valiosas para a escolha da abordagem mais adequada, dependendo do contexto e das prioridades de precisão versus tempo.
 
-Os arquivos CSV gerados e os gráficos de análise fornecem uma maneira eficaz de visualizar e comparar os resultados, facilitando a identificação de padrões de desempenho.
+---
+
+## Bibliotecas Necessárias
+
+Para executar este projeto, foram utilizadas as seguintes bibliotecas:
+
+1. **Java Core:** Para a lógica principal do projeto.
+2. **JOCL (Java OpenCL):** Para execução paralela em GPU.
+3. **Matplotlib e Pandas (Python):** Para a geração de gráficos baseados nos arquivos CSV.
+4. **JDK 21.0.1:** Ambiente de desenvolvimento para compilar e executar os programas.
+
+---
 
 ## Referências
 
-- OpenCL Specification, Khronos Group, 2020.
-- Java Concurrency in Practice, Brian Goetz, 2006.
-- The Art of Multiprocessor Programming, Maurice Herlihy, Nir Shavit, 2009.
+1. Documentação oficial do JOCL: [JOCL](http://www.jocl.org/)
+2. Documentação do OpenJDK: [OpenJDK](https://openjdk.org/)
+3. Referências de gráficos em Python: [Matplotlib](https://matplotlib.org/)
+
+---
 
 ## Anexos
 
-- **Códigos de Implementação**: O código completo está disponível no [GitHub](https://github.com/usuario/WordCounter).
-  
+### Códigos Fonte
+Os códigos-fonte completos estão disponíveis no repositório do projeto no GitHub:
+
+[Repositório no GitHub](https://github.com/seu-usuario/seu-repositorio)
+
+### Scripts Python
+
+O script `graphs.py` foi utilizado para gerar os gráficos baseados nos dados coletados.
+
+### Dados de Entrada
+
+Os textos utilizados foram:
+
+- `MobyDick-217452.txt`
+- `Dracula-165307.txt`
+- `DonQuixote-388208.txt`
+
+---
+
+### **Passo a Passo**
+1. **Prepare o Ambiente:**
+   - Certifique-se de que o JDK está instalado e configurado corretamente no `JAVA_HOME`.
+   - Instale o Python e as bibliotecas necessárias com:
+     ```pip install matplotlib pandas```
+
+2. **Compile os Códigos em Java:**
+   - Navegue até o diretório do projeto e compile os arquivos `.java` com o seguinte comando:
+     ```javac -d .class -cp ".;jocl-2.0.4.jar" SerialCPU.java ParallelCPU.java ParallelGPU.java Main.java```
+
+3. **Insira a Palavra-Alvo:**
+   - Edite o arquivo `palavra.txt` e insira a palavra que deseja buscar (somente uma palavra).
+
+4. **Execute a Main:**
+   - Use o comando abaixo para rodar o programa principal:
+     ```java -cp ".class;jocl-2.0.4.jar" Main```
+
+---
